@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   Lexicon — design tokens
+   A lexicographer's study: cool ledger-paper ground, fountain-pen ink-blue,
+   an oxblood "attention" flag, and morpheme type-colors for the gloss.
+   =========================================================================== */
+:root {
+  --paper: #e9eae2; /* cool pale sage-grey ledger */
+  --paper-raised: #f4f5ef; /* cards / raised surfaces */
+  --paper-sunk: #e1e3d8; /* wells, inputs */
+  --ink: #1b1e19; /* near-black, green undertone */
+  --ink-soft: #585c50; /* muted text */
+  --ink-faint: #8a8d80; /* captions, disabled */
+  --line: #cfd2c4; /* hairlines */
+  --line-strong: #b6b9aa;
+
+  --accent: #213a86; /* ink blue */
+  --accent-bright: #2f4fd6; /* interaction blue */
+  --accent-wash: #dfe3f2; /* tint for selected/hover */
+
+  --flag: #9d3b2c; /* oxblood — attention / due / lapse */
+  --flag-wash: #efdcd6;
+
+  --gold: #8a6a1f; /* mastery / easy */
+  --gold-wash: #ece1c6;
+
+  /* morpheme type colors */
+  --m-prefix: #2f6f5e; /* teal-green */
+  --m-root: #213a86; /* ink blue */
+  --m-suffix: #8a4a1f; /* sienna */
+  --m-other: #585c50;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-paper-sunk: var(--paper-sunk);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-wash: var(--accent-wash);
+  --color-flag: var(--flag);
+  --color-flag-wash: var(--flag-wash);
+  --color-gold: var(--gold);
+  --color-gold-wash: var(--gold-wash);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
+}
+
+* {
+  border-color: var(--line);
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-feature-settings: "ss01";
+}
+
+/* Subtle ledger texture: faint ruled lines, like study paper. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    rgba(27, 30, 25, 0.022) 31px,
+    rgba(27, 30, 25, 0.022) 32px
+  );
+}
+
+/* ---- utility type roles ---- */
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.label-mono {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+/* ---- focus ring for accessibility ---- */
+:where(a, button, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---- the morpheme gloss signature ----
+   The headword stays tight and readable, segmented by colored underlines;
+   meanings are glossed in a compact legend beneath (handles long meanings). */
+.headword {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 3px;
+}
+.headword-seg {
+  font-family: var(--font-display), serif;
+  line-height: 1.05;
+  color: var(--ink);
+  border-bottom: 3px solid var(--seg-color, var(--ink));
+  padding-bottom: 1px;
+}
+.gloss-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.1rem;
+}
+.gloss-legend-item {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+.gloss-legend-item b {
+  font-weight: 600;
+  color: var(--seg-color, var(--ink));
+  margin-right: 0.35rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-rise {
+  animation: rise 0.4s ease both;
+}
