@@ -1,5 +1,7 @@
 # Lexicon — a daily vocabulary study
 
+![CI](https://github.com/aaronkaplan13-glitch/vocabulary-app/actions/workflows/ci.yml/badge.svg)
+
 A local-first vocabulary app built on **production over recognition**: active
 recall, interleaved practice, FSRS spaced repetition, an auto-assembling
 morpheme graph, and a Claude conversation coach.
